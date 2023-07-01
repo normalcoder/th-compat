@@ -102,6 +102,7 @@ import qualified Language.Haskell.TH.Syntax as Syntax
 import Control.Applicative
 #endif
 
+import qualified Data.Kind as Kind (Type)
 #if MIN_VERSION_template_haskell(2,16,0)
 import GHC.Exts (RuntimeRep, TYPE)
 #endif
@@ -757,7 +758,7 @@ joinCode = flip bindCode id
 --
 -- Levity-polymorphic since /template-haskell-2.16.0.0/.
 # if MIN_VERSION_template_haskell(2,17,0)
-type Splice  = Code :: (forall r. (* -> *) -> TYPE r -> *)
+type Splice  = Code :: ((Kind.Type -> Kind.Type) -> forall r. TYPE r -> Kind.Type)
 # elif MIN_VERSION_template_haskell(2,16,0)
 type Splice m (a :: TYPE r) = m (Syntax.TExp a)
 # else
